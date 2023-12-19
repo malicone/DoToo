@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/pop-ups
+bool answer = await DisplayAlert( "Question?", "Would you like to play a game", "Yes", "No" );
+
+
+
+
+
+
+
+
+System.NotSupportedException
+  Message=Cannot delete Int32: it has no PK

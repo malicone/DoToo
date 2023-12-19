@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DoToo.Views.CategoriesView"
+             Title="Categories">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding Add}" />
+    </ContentPage.ToolbarItems>
+
+    <ListView x:Name="CategoriesListView" RowHeight="40" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Padding="8,8">
+                        <Label Text="{Binding Name}" FontSize="Medium" />
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>

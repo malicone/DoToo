@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+xmlns:converters="clr-namespace:DoToo.Converters"
+xmlns:local="clr-namespace:DoToo"
+x:Class="DoToo.Views.MainView"
+Title="DoItSoon">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItem}" />
+        <ToolbarItem Text="..." Command="{Binding ShowSettingsList}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StatusColorConverter x:Key="StatusColorConverter" />
+            <converters:StatusTextConverter x:Key="StatusTextConverter" />
+            <converters:ShowAllTextConverter x:Key="ShowAllTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Picker Title="Category" HeightRequest="60" Grid.Row="0" Grid.Column="0" 
+                ItemsSource="{Binding Categories}" ItemDisplayBinding="{Binding Name}" x:Name="CategoryPicker" 
+                SelectedItem="{Binding SelectedCategory, Mode=TwoWay}">
+        </Picker>
+
+        <Button Text="..." Grid.Row="0" Grid.Column="1" HeightRequest="50" WidthRequest="50" Command="{Binding AddCategory}"></Button>
+        <Button Text="{Binding ShowAll, Converter={StaticResource ShowAllTextConverter}, StringFormat='Filter: {0}'}" 
+                BackgroundColor="{Binding ShowAll, Converter={StaticResource StatusColorConverter}}" TextColor="Black"
+                Command="{Binding ToggleFilter}" Grid.Row="0" Grid.Column="2">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding ShowAll}" Value="True">
+                    <Setter Property="TextColor" Value="White" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+        <ListView x:Name="ItemsListView" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" RowHeight="70" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="{Binding Item.Completed, Converter={StaticResource StatusTextConverter}}" Command="{Binding ToggleCompleted}" />
+                        </ViewCell.ContextActions>
+                        <Grid Padding="15,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <BoxView Grid.RowSpan="2" BackgroundColor="{Binding Item.Completed, Converter={StaticResource StatusColorConverter}}"/>
+                            <Label Grid.Column="1" Text="{Binding Item.Title}" FontSize="Medium" />
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Item.Due, StringFormat='{0:MMMM d, yyyy}'}" FontSize="Micro" />
+                            <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="End" Text="Completed" 
+                                   IsVisible="{Binding Item.Completed}" FontSize="Micro" TextColor="{StaticResource CompletedColor}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>        
